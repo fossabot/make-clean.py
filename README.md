@@ -1,5 +1,4 @@
-make-clean
-==========
+# make-clean
 
 [![Travis CI Build Status](https://travis-ci.org/tomoh1r/make-clean.py.svg?branch=master)](https://travis-ci.org/tomoh1r/make-clean.py) [![AppVeyor Build Status](https://ci.appveyor.com/api/projects/status/ui4585dett58eu1r?branch=master&svg=true)](https://ci.appveyor.com/project/tomoh1r/make-clean-py)
 
@@ -17,7 +16,7 @@ if "%1" == "clean" (
 )
 ```
 
-# Usage
+## Usage
 
 This package has a `make-clean` command.
 
@@ -40,7 +39,7 @@ optional arguments:
                         dir/file to ignore from remove
 ```
 
-# Test
+## Test
 
 I use [pytest](http://doc.pytest.org/en/latest/).
 

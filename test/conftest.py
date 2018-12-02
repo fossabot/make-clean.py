@@ -1,17 +1,17 @@
 # -*- coding: utf-8 -*-
 from __future__ import absolute_import
 
+import importlib
 import os
-import tempfile
 import shutil
+import tempfile
 
 import pytest
 
 
 @pytest.fixture(scope='module')
 def make_clean():
-    from make_clean import make_clean
-    return make_clean
+    return importlib.import_module('make_clean').clean
 
 
 @pytest.fixture(scope='function')

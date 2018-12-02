@@ -1,10 +1,7 @@
 make-clean
 ==========
 
-[![Travis CI Build Status](https://travis-ci.org/tomoh1r/make-clean.py.svg?branch=master)](https://travis-ci.org/tomoh1r/make-clean.py)
-
-
-[![AppVeyor Build Status](https://ci.appveyor.com/api/projects/status/ui4585dett58eu1r?branch=master&svg=true)](https://ci.appveyor.com/project/tomoh1r/make-clean-py)
+[![Travis CI Build Status](https://travis-ci.org/tomoh1r/make-clean.py.svg?branch=master)](https://travis-ci.org/tomoh1r/make-clean.py) [![AppVeyor Build Status](https://ci.appveyor.com/api/projects/status/ui4585dett58eu1r?branch=master&svg=true)](https://ci.appveyor.com/project/tomoh1r/make-clean-py)
 
 If one'd like to make sphinx repository with github-pages sumodule, one shoud
 exclude rm `_build/html/.git`.

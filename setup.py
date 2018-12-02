@@ -1,7 +1,7 @@
 import importlib
 import os
 
-from setuptools import setup
+from setuptools import setup, find_packages
 
 
 def _readme():
@@ -19,19 +19,19 @@ setup(
     description='A Cleanup Utility',
     long_description=_readme(),
     long_description_content_type='text/markdown',
-    py_modules=['make_clean'],
     classifiers=[
         'Development Status :: 5 - Production/Stable',
         'License :: OSI Approved :: MIT License',
     ],
     license='MIT License',
+    packages=find_packages('.'),
+    extras_require={
+        'test': ['pytest', 'flake8', 'mypy'],
+        'pypi': ['twine', 'wheel'],
+    },
     entry_points={
         'console_scripts': [
-            'make-clean = make_clean:main',
+            'make-clean = make_clean',
         ]
     },
-    extras_require={
-        'test': ['pytest'],
-        'pypi': ['wheel'],
-    }
 )

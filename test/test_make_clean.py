@@ -21,7 +21,7 @@ def test_remove_file(monkeypatch, make_clean, tmp_dir,
     ignores = [os.path.join(dir_name, x) for x in ignores]
 
     assert os.path.exists(target_file)
-    make_clean([dir_name], ignores=ignores)
+    make_clean([dir_name], ignore_patterns=ignores)
     assert os.path.exists(target_file) == is_exists
 
 
@@ -49,7 +49,7 @@ def test_remove_dir(monkeypatch, make_clean, tmp_dir,
     ignores = [os.path.join(dir_name, x) for x in ignores]
 
     assert os.path.exists(target_dir)
-    make_clean([dir_name], ignores=ignores)
+    make_clean([dir_name], ignore_patterns=ignores)
     assert os.path.exists(target_dir) == is_exists
 
 

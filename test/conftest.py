@@ -11,7 +11,8 @@ import pytest
 
 @pytest.fixture(scope='module')
 def make_clean():
-    return importlib.import_module('make_clean').clean
+    cls = importlib.import_module('make_clean.make_clean').Cleaner
+    return cls.clean
 
 
 @pytest.fixture(scope='function')

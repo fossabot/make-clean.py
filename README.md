@@ -39,12 +39,17 @@ optional arguments:
                         dir/file to ignore from remove
 ```
 
-## Test
+## Development
+
+```
+> C:\path\to\python\3.X.Y\python.exe -m venv --clear venv
+> .\venv\Scripts\python.exe -m pip install -e '.[test,pypi]'
+```
+
+## Unit Test
 
 I use [pytest](http://doc.pytest.org/en/latest/).
 
 ```
-> C:\path\to\python\3.X.Y\python.exe -m venv --clear venv
-> .\venv\Scripts\python.exe setup.py develop easy_install make-clean[test]
 > .\venv\Scripts\python.exe -m pytest
 ```

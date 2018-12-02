@@ -10,7 +10,7 @@ import pytest
             # test for do not remove excluded file
             (['example.txt'], True)
         ])
-def test_remove_file(monkeypatch, make_clean, tmp_dir,
+def test_remove_file(monkeypatch, clean, tmp_dir,
                      ignores, is_exists):
     dir_name = os.path.basename(tmp_dir)
     monkeypatch.chdir(os.path.dirname(tmp_dir))
@@ -21,7 +21,7 @@ def test_remove_file(monkeypatch, make_clean, tmp_dir,
     ignores = [os.path.join(dir_name, x) for x in ignores]
 
     assert os.path.exists(target_file)
-    make_clean([dir_name], ignore_patterns=ignores)
+    clean([dir_name], ignore_patterns=ignores)
     assert os.path.exists(target_file) == is_exists
 
 
@@ -34,7 +34,7 @@ def test_remove_file(monkeypatch, make_clean, tmp_dir,
             # test for do not remove excluded dir
             ([], ['example' + os.sep], True)
         ])
-def test_remove_dir(monkeypatch, make_clean, tmp_dir,
+def test_remove_dir(monkeypatch, clean, tmp_dir,
                     files, ignores, is_exists):
     dir_name = os.path.basename(tmp_dir)
     monkeypatch.chdir(os.path.dirname(tmp_dir))
@@ -49,12 +49,12 @@ def test_remove_dir(monkeypatch, make_clean, tmp_dir,
     ignores = [os.path.join(dir_name, x) for x in ignores]
 
     assert os.path.exists(target_dir)
-    make_clean([dir_name], ignore_patterns=ignores)
+    clean([dir_name], ignore_patterns=ignores)
     assert os.path.exists(target_dir) == is_exists
 
 
 def test_donot_remove_dir_without_ossep_suffix(
-        monkeypatch, make_clean, tmp_dir):
+        monkeypatch, clean, tmp_dir):
     dir_name = os.path.basename(tmp_dir)
     monkeypatch.chdir(os.path.dirname(tmp_dir))
 
@@ -62,7 +62,7 @@ def test_donot_remove_dir_without_ossep_suffix(
     os.mkdir(target_dir)
 
     assert os.path.exists(target_dir)
-    make_clean([dir_name],
+    clean([dir_name],
                ignores=[os.path.join(dir_name, 'example')])
     assert not os.path.exists(target_dir)
 
@@ -74,7 +74,7 @@ def test_donot_remove_dir_without_ossep_suffix(
             # test for starts with slash
             ('/')
         ])
-def test_not_remove_exclude_file_from_file(monkeypatch, make_clean, tmp_dir,
+def test_not_remove_exclude_file_from_file(monkeypatch, clean, tmp_dir,
                                            prefix):
     dir_name = os.path.basename(tmp_dir)
     monkeypatch.chdir(os.path.dirname(tmp_dir))
@@ -88,11 +88,11 @@ def test_not_remove_exclude_file_from_file(monkeypatch, make_clean, tmp_dir,
         fp.write(prefix + dir_name + '/example/example.txt')
 
     assert os.path.exists(target_file)
-    make_clean([dir_name], '.cleanignore')
+    clean([dir_name], '.cleanignore')
     assert os.path.exists(target_file)
 
 
-def test_clean_current_dir(monkeypatch, make_clean, tmp_dir):
+def test_clean_current_dir(monkeypatch, clean, tmp_dir):
     monkeypatch.chdir(tmp_dir)
 
     target_file = os.path.join(tmp_dir, 'example.txt')
@@ -100,12 +100,12 @@ def test_clean_current_dir(monkeypatch, make_clean, tmp_dir):
 
     assert os.path.exists(tmp_dir)
     assert os.path.exists(target_file)
-    make_clean('.')
+    clean('.')
     assert os.path.exists(tmp_dir)
     assert not os.path.exists(target_file)
 
 
-def test_clean_dirs(monkeypatch, make_clean, tmp_dir):
+def test_clean_dirs(monkeypatch, clean, tmp_dir):
     dir_name = os.path.basename(tmp_dir)
     monkeypatch.chdir(os.path.dirname(tmp_dir))
     here = os.getcwd()
@@ -118,6 +118,6 @@ def test_clean_dirs(monkeypatch, make_clean, tmp_dir):
 
     for dname in dir_names:
         assert os.path.exists(os.path.join(here, dname, 'example.txt'))
-    make_clean(dir_names)
+    clean(dir_names)
     for dname in dir_names:
         assert not os.path.exists(os.path.join(here, dname, 'example.txt'))

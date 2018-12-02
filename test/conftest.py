@@ -10,7 +10,12 @@ import pytest
 
 
 @pytest.fixture(scope='module')
-def make_clean():
+def IgnoreParser():
+    return importlib.import_module('make_clean.ignore_parser').IgnoreParser
+
+
+@pytest.fixture(scope='module')
+def clean():
     cls = importlib.import_module('make_clean.make_clean').Cleaner
     return cls.clean
 

@@ -2,22 +2,22 @@ import os
 
 
 class IgnoreParser(object):
-    def __init__(self, fpath, patterns):
-        self.ignores = IgnoreParser._build_ignores(fpath, patterns)
+    def __init__(self, fullpath):
+        self.cwd = os.getcwd().replace(os.sep, '/').lstrip('/')
+        self.ignores = IgnoreParser._build_ignores(fullpath)
 
     @classmethod
-    def _build_ignores(cls, fpath, patterns):
+    def _build_ignores(cls, fullpath):
         ignores = []
-        if fpath and os.path.isfile(fpath):
-            with open(fpath) as fp:
+        if fullpath and os.path.isfile(fullpath):
+            with open(fullpath) as fp:
                 ignores.extend([
                     x.strip().replace('/', os.sep) for x in fp
                     if not x.strip().startswith('#')])
-
-        if patterns:
-            ignores.extend([x.lstrip('/') for x in patterns if x])
         return ignores
 
-    def has_ignored(self, object_path):
-        fpath = str(object_path)
+    def has_ignored(self, object_fullpath):
+        relpath = (str(object_fullpath)
+                   .replace(os.sep, '/')
+                   .lstrip(self.cwd))
         return False

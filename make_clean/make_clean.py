@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 import os
 import shutil
+import tempfile
 
 from make_clean.ignore_parser import IgnoreParser
 
@@ -8,15 +9,30 @@ from make_clean.ignore_parser import IgnoreParser
 class Cleaner(object):
     @classmethod
     def clean(cls, target_dirs, ignore_fpath='.cleanignore',
-              ignore_patterns=None):
-        cleaner = cls()
-        cleaner.setup_ignore(ignore_fpath, ignore_patterns)
-        cleaner.clean_targets(target_dirs)
+              ignore_patterns=[]):
+        lines = []
+        if os.path.isfile(ignore_fpath):
+            with open(ignore_fpath) as fp:
+                lines.extend([x for x in fp])
+        lines.extend(ignore_patterns)
 
-    def setup_ignore(self, ignore_fpath, ignore_patterns):
+        fpath = None
+        try:
+            fpath = tempfile.mkstemp()[1]
+            with open(fpath, 'w') as fp:
+                fp.write('\n'.join(lines))
+
+            cleaner = cls()
+            cleaner.setup_ignore(fpath)
+            cleaner.clean_targets(target_dirs)
+        finally:
+            if fpath:
+                os.remove(fpath)
+
+    def setup_ignore(self, ignore_fpath):
         self._ignore_parser = None
-        if ignore_fpath or ignore_patterns:
-            self._ignore_parser = IgnoreParser(ignore_fpath, ignore_patterns)
+        if ignore_fpath:
+            self._ignore_parser = IgnoreParser(ignore_fpath)
 
     def has_ignored(self, object_path):
         if self._ignore_parser:

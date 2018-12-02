@@ -31,7 +31,7 @@ setup(
     },
     entry_points={
         'console_scripts': [
-            'make-clean = make_clean',
+            'make-clean = make_clean.__main__:main',
         ]
     },
 )

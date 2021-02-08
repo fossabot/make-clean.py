@@ -2,24 +2,32 @@ environment:
   matrix:
     - PYTHON: "C:\\Python27"
     - PYTHON: "C:\\Python27-x64"
-    - PYTHON: "C:\\Python33"
-    - PYTHON: "C:\\Python33-x64"
-    - PYTHON: "C:\\Python34"
-    - PYTHON: "C:\\Python34-x64"
     - PYTHON: "C:\\Python35"
     - PYTHON: "C:\\Python35-x64"
+    - PYTHON: "C:\\Python36"
+    - PYTHON: "C:\\Python36-x64"
+    - PYTHON: "C:\\Python37"
+    - PYTHON: "C:\\Python37-x64"
+    - PYTHON: "C:\\Python38"
+    - PYTHON: "C:\\Python38-x64"
+    - PYTHON: "C:\\Python39"
+    - PYTHON: "C:\\Python39-x64"
 
 install:
   # Check that we have the expected version and architecture for Python
   - "%PYTHON%\\python.exe --version"
   - "%PYTHON%\\python.exe -c \"import struct; print(struct.calcsize('P') * 8)\""
 
-  - ps: Invoke-WebRequest -Uri https://raw.githubusercontent.com/pypa/virtualenv/master/virtualenv.py -OutFile .\\virtualenv.py
-  - ps: Invoke-WebRequest -Uri https://bootstrap.pypa.io/get-pip.py -OutFile .\\get-pip.py
-  - "%PYTHON%\\python.exe virtualenv.py --clear --no-setuptools --no-pip --no-wheel venv"
-  - ".\\venv\\Scripts\\python.exe get-pip.py"
-  - ".\\venv\\Scripts\\python.exe -m pip install -U setuptools pip flake8"
-  - ".\\venv\\Scripts\\python.exe setup.py setup_test"
+  - ps: $PYVER = $($($Env:PYTHON\\python.exe -V) -split " ")[1]
+  - ps: if($PYVER.StartsWith("2.7")){ Invoke-WebRequest -Uri https://raw.githubusercontent.com/pypa/virtualenv/master/virtualenv.py -OutFile .\\virtualenv.py; }
+  - ps: if($PYVER.StartsWith("2.7")){ Invoke-WebRequest -Uri https://bootstrap.pypa.io/get-pip.py -OutFile .\\get-pip.py; }
+  - ps: if($PYVER.StartsWith("2.7")){ & "%PYTHON%\\python.exe virtualenv.py" "--clear" "--no-setuptools" "--no-pip" "--no-wheel" "venv"; }
+  - ps: if($PYVER.StartsWith("2.7")){ & ".\\venv\\Scripts\\python.exe" "get-pip.py"; }
+
+  - ps: if($PYVER.StartsWith("3"){ & "%PYTHON%\\python.exe" "-m" "venv" "--clear" "venv"; }
+
+  - ".\\venv\\Scripts\\python.exe -m pip install -U setuptools pip"
+  - ".\\venv\\Scripts\\python.exe -m pip install -e .[dev]"
 
 build: off
 
